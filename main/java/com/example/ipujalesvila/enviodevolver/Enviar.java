@@ -1,9 +1,16 @@
 package com.example.ipujalesvila.enviodevolver;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 public class Enviar extends Activity {
@@ -11,7 +18,63 @@ public class Enviar extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addPerson);
+        setContentView(R.layout.activity_addperson);
+
+        Button btnañadir = (Button) findViewById(R.id.buttonAdd);
+        Button btneditar = (Button) findViewById(R.id.buttonEditPers);
+        final EditText edtnombre = (EditText) findViewById(R.id.editNombre);
+        final EditText edttelefono = (EditText) findViewById(R.id.editTelf);
+        final EditText edtpers = (EditText) findViewById(R.id.editPers);
+        final ArrayList<Persona> Agenda = new ArrayList<Persona>();
+
+
+        btnañadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ("".equals(edtnombre.getText().toString().trim())) {
+                    CharSequence msg = getResources().getString(R.string.toastName);
+                    showToast(getResources().getString(R.string.toastName));
+                    return;
+                }
+
+                if ("".equals(edttelefono.getText().toString().trim())) {
+                    CharSequence msg = getResources().getString(R.string.toastTelefono);
+                    showToast(getResources().getString(R.string.toastTelefono));
+                    return;
+                }
+
+                if (edtnombre.getText() != null && edttelefono.getText() != null) {
+                    Agenda.add(new Persona(edtnombre.getText().toString(), edttelefono.getText().toString()));
+                    CharSequence msg = getResources().getString(R.string.toastAdd);
+                    showToast(getResources().getString(R.string.toastAdd));
+                    return;
+                }
+            }
+        });
+
+        btneditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String name = edtpers.getText().toString();
+
+                for (int i = 0; i > Agenda.size(); i++) {
+                    if(){
+
+                    }
+                }
+
+            }
+        });
+
+
+    }
+
+    protected void showToast(String msg) {
+        Context contexto = getApplicationContext();
+        int duracion = Toast.LENGTH_LONG;
+        Toast tostada = Toast.makeText(contexto, msg, duracion);
+        tostada.show();
     }
 
 
