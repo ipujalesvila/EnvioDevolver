@@ -2,7 +2,9 @@ package com.example.ipujalesvila.enviodevolver;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,11 +58,16 @@ public class Enviar extends Activity {
             @Override
             public void onClick(View v) {
 
-                String name = edtpers.getText().toString();
-
-                for (int i = 0; i > Agenda.size(); i++) {
-                    if(){
-
+                for (int i = 0; i < Agenda.size(); i++) {
+                    String busc = Agenda.get(i).getNombre();
+                    String nom = edtpers.getText().toString();
+                    if (nom.equalsIgnoreCase(busc)) {
+                        String[] persona = null;
+                        Intent intento = new Intent(Enviar.this, Editar.class);
+                        intento.putExtra("NombrePersona", Agenda.get(i).getNombre().toString());
+                        intento.putExtra("TelfPersona", Agenda.get(i).getTelefono().toString());
+                        startActivity(intento);
+                        break;
                     }
                 }
 
