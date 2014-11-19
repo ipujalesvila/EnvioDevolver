@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 
 public class Enviar extends Activity {
+    final ArrayList<Persona> Agenda = new ArrayList<Persona>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,6 @@ public class Enviar extends Activity {
         final EditText edtnombre = (EditText) findViewById(R.id.editNombre);
         final EditText edttelefono = (EditText) findViewById(R.id.editTelf);
         final EditText edtpers = (EditText) findViewById(R.id.editPers);
-        final ArrayList<Persona> Agenda = new ArrayList<Persona>();
 
 
         btnañadir.setOnClickListener(new View.OnClickListener() {
@@ -57,24 +57,30 @@ public class Enviar extends Activity {
         btneditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 for (int i = 0; i < Agenda.size(); i++) {
                     String busc = Agenda.get(i).getNombre();
                     String nom = edtpers.getText().toString();
                     if (nom.equalsIgnoreCase(busc)) {
-                        String[] persona = null;
                         Intent intento = new Intent(Enviar.this, Editar.class);
                         intento.putExtra("NombrePersona", Agenda.get(i).getNombre().toString());
                         intento.putExtra("TelfPersona", Agenda.get(i).getTelefono().toString());
-                        startActivity(intento);
+                        intento.putExtra("Posicion",i);
+                        startActivityForResult(intento, 1);
                         break;
                     }
                 }
 
+
             }
         });
 
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Agenda.get(data.getExtras().getInt("NewPos")).setNombre(data.getExtras().getString("NewName"));
+        Agenda.get(data.getExtras().getInt("NewPos")).setTelefono(data.getExtras().getString("NewPhone"));
     }
 
     protected void showToast(String msg) {
