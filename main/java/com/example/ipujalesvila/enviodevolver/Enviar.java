@@ -12,11 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Enviar extends Activity {
-    final ArrayList<Persona> Agenda = new ArrayList<Persona>();
+public class Enviar extends Activity implements Serializable{
+    ArrayList<Persona> Agenda = new ArrayList<Persona>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +25,19 @@ public class Enviar extends Activity {
         setContentView(R.layout.activity_addperson);
 
         Button btnañadir = (Button) findViewById(R.id.buttonAdd);
-        Button btneditar = (Button) findViewById(R.id.buttonEditPers);
+        Button btnverList = (Button) findViewById(R.id.buttonVerList);
         final EditText edtnombre = (EditText) findViewById(R.id.editNombre);
         final EditText edttelefono = (EditText) findViewById(R.id.editTelf);
-        final EditText edtpers = (EditText) findViewById(R.id.editPers);
 
+        if (getIntent()!=null){
+        Intent intento = getIntent();
+        Agenda = (ArrayList<Persona>)intento.getSerializableExtra("agend");
+        }
 
         btnañadir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if ("".equals(edtnombre.getText().toString().trim())) {
                     CharSequence msg = getResources().getString(R.string.toastName);
                     showToast(getResources().getString(R.string.toastName));
@@ -54,23 +59,13 @@ public class Enviar extends Activity {
             }
         });
 
-        btneditar.setOnClickListener(new View.OnClickListener() {
+        btnverList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i < Agenda.size(); i++) {
-                    String busc = Agenda.get(i).getNombre();
-                    String nom = edtpers.getText().toString();
-                    if (nom.equalsIgnoreCase(busc)) {
-                        Intent intento = new Intent(Enviar.this, Editar.class);
-                        intento.putExtra("NombrePersona", Agenda.get(i).getNombre().toString());
-                        intento.putExtra("TelfPersona", Agenda.get(i).getTelefono().toString());
-                        intento.putExtra("Posicion",i);
-                        startActivityForResult(intento, 1);
-                        break;
-                    }
-                }
-
-
+                Intent intento = new Intent(Enviar.this, VerLista.class);
+                intento.putExtra("agend",Agenda);
+                startActivityForResult(intento,1);
+                finish();
             }
         });
 
@@ -79,8 +74,7 @@ public class Enviar extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Agenda.get(data.getExtras().getInt("NewPos")).setNombre(data.getExtras().getString("NewName"));
-        Agenda.get(data.getExtras().getInt("NewPos")).setTelefono(data.getExtras().getString("NewPhone"));
+        Agenda = (ArrayList<Persona>)data.getSerializableExtra("agend");
     }
 
     protected void showToast(String msg) {
