@@ -18,16 +18,18 @@ import java.util.ArrayList;
 
 public class VerLista extends ListActivity implements Serializable {
 
-    Intent intento = getIntent();
-
-    ArrayList <Persona> Agenda = (ArrayList<Persona>)intento.getSerializableExtra("agend");
+    ArrayList <Persona> Agenda = new ArrayList<Persona>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_lista);
 
-        String[] nombres= ;
+        Intent intento = getIntent();
+
+        Agenda = (ArrayList<Persona>)intento.getSerializableExtra("agend");
+
+        String nombres[]= new String[Agenda.size()];
         for (int i=0;i< Agenda.size();i++){
             nombres[i] = Agenda.get(i).getNombre().toString();
         }
@@ -37,21 +39,26 @@ public class VerLista extends ListActivity implements Serializable {
     }
 
     public void onListItemClick(ListView parent,View v,int position,long id){
-        for (int i = 0; i < Agenda.size(); i++){
-            String busc = Agenda.get(i).getNombre();
-            String nom = Agenda.get(position).getNombre();
-            if (nom.equalsIgnoreCase(busc)) {
+
+                Persona persona = Agenda.get(position);
                 Intent intento = new Intent(VerLista.this, Editar.class);
                 intento.putExtra("agend",Agenda);
-                intento.putExtra("Posicion",i);
+                intento.putExtra("Posicion",position);
                 startActivityForResult(intento, 1);
                 finish();
-                break;
-            }
-        }
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Agenda = (ArrayList<Persona>)data.getSerializableExtra("agend");
+        Intent intento2 = new Intent(VerLista.this, Enviar.class);
+        intento2.putExtra("agend",Agenda);
+        setResult(RESULT_OK, intento2);
+
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
