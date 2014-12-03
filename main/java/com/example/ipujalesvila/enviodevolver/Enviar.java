@@ -29,10 +29,6 @@ public class Enviar extends Activity implements Serializable{
         final EditText edtnombre = (EditText) findViewById(R.id.editNombre);
         final EditText edttelefono = (EditText) findViewById(R.id.editTelf);
 
-        if (getIntent()!=null){
-        Intent intento = getIntent();
-        Agenda = (ArrayList<Persona>)intento.getSerializableExtra("agend");
-        }
 
         btnañadir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +61,7 @@ public class Enviar extends Activity implements Serializable{
                 Intent intento = new Intent(Enviar.this, VerLista.class);
                 intento.putExtra("agend",Agenda);
                 startActivityForResult(intento,1);
-                finish();
+
             }
         });
 
