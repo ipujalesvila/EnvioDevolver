@@ -54,8 +54,6 @@ public class Enviar extends Activity implements Serializable {
                     showToast(getResources().getString(R.string.toastAdd));
                     return;
                 }
-                showToast(Integer.toString(Agenda.size()));
-
 
             }
         });
