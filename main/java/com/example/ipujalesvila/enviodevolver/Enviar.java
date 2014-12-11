@@ -16,8 +16,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Enviar extends Activity implements Serializable{
+public class Enviar extends Activity implements Serializable {
     ArrayList<Persona> Agenda = new ArrayList<Persona>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class Enviar extends Activity implements Serializable{
 
         Button btnañadir = (Button) findViewById(R.id.buttonAdd);
         Button btnverList = (Button) findViewById(R.id.buttonVerList);
+        Button btnborrar = (Button) findViewById(R.id.buttonBorrar);
         final EditText edtnombre = (EditText) findViewById(R.id.editNombre);
         final EditText edttelefono = (EditText) findViewById(R.id.editTelf);
 
@@ -52,6 +54,9 @@ public class Enviar extends Activity implements Serializable{
                     showToast(getResources().getString(R.string.toastAdd));
                     return;
                 }
+                showToast(Integer.toString(Agenda.size()));
+
+
             }
         });
 
@@ -59,18 +64,38 @@ public class Enviar extends Activity implements Serializable{
             @Override
             public void onClick(View v) {
                 Intent intento = new Intent(Enviar.this, VerLista.class);
-                intento.putExtra("agend",Agenda);
-                startActivityForResult(intento,1);
+                intento.putExtra("agend", Agenda);
+                startActivityForResult(intento, 1);
 
             }
         });
 
+        btnborrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intento = new Intent(Enviar.this, Borrar.class);
+                intento.putExtra("agend", Agenda);
+                startActivityForResult(intento, 1);
+
+            }
+
+
+        });
+
+        showToast(Integer.toString(Agenda.size()));
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Agenda = (ArrayList<Persona>)data.getSerializableExtra("agend");
+        Agenda = (ArrayList<Persona>) data.getSerializableExtra("agend");
+        final EditText edtnombre = (EditText) findViewById(R.id.editNombre);
+        final EditText edttelefono = (EditText) findViewById(R.id.editTelf);
+        onCreate(Bundle.EMPTY);
+        edtnombre.setText("");
+        edttelefono.setText("");
+
     }
 
     protected void showToast(String msg) {

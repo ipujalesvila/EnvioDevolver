@@ -26,7 +26,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/textView"
-        android:hint="Nombre"
+        android:hint="Introducir nombre"
         />
 
     <TextView
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editTelf"
-        android:hint="Telefono"
+        android:hint="Introducir telefono"
         android:layout_below="@+id/textTelf"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -55,5 +55,42 @@
         android:id="@+id/buttonAdd"
         android:layout_below="@+id/editTelf"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/list"
+        android:id="@+id/textVerList"
+        android:layout_centerVertical="true"
+        android:textSize="50px"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete"
+        android:id="@+id/textBorrar"
+        android:layout_centerVertical="true"
+        android:textSize="50px"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/buttonVerList"
+        android:layout_marginTop="50px"/>
+
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Lista"
+        android:id="@+id/buttonVerList"
+        android:layout_below="@+id/textVerList"
+        />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Lista"
+        android:id="@+id/buttonBorrar"
+        android:layout_below="@+id/textBorrar"
+        />
 
 </RelativeLayout>

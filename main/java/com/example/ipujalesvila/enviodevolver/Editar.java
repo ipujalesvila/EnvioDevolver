@@ -12,37 +12,47 @@ import android.widget.TextView;
 
 import com.example.ipujalesvila.enviodevolver.R;
 
+import java.util.ArrayList;
+
 public class Editar extends Activity {
+    ArrayList<Persona> Agenda = new ArrayList<Persona>();
+    int pos=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar);
+        Intent intento = getIntent();
         EditText nombre = (EditText)findViewById(R.id.editNombre);
         EditText telf = (EditText)findViewById(R.id.editTelf);
+        pos= intento.getExtras().getInt("Posicion");
+        Agenda = (ArrayList<Persona>)intento.getSerializableExtra("agend");
 
-        Intent intento = getIntent();
-        final int pos= intento.getExtras().getInt("Posicion");
-        nombre.setText(intento.getExtras().getString("NombrePersona"));
-        telf.setText(intento.getExtras().getString("TelfPersona"));
+        nombre.setText(Agenda.get(pos).getNombre().toString());
+        telf.setText(Agenda.get(pos).getTelefono().toString());
 
         Button edit =(Button)findViewById(R.id.buttonAdd);
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newNome =((TextView) findViewById(R.id.editNombre)).getText().toString();
-                String newTelf =((TextView) findViewById(R.id.editTelf)).getText().toString();
+                TextView nombre = (TextView)findViewById(R.id.textPrueba);
 
-                Intent intento2 = new Intent(Editar.this, Enviar.class);
-                intento2.putExtra("NewName",newNome);
-                intento2.putExtra("NewPhone",newTelf);
-                intento2.putExtra("NewPos", pos);
+                String newNome =((EditText) findViewById(R.id.editNombre)).getText().toString();
+                String newTelf =((EditText) findViewById(R.id.editTelf)).getText().toString();
+
+                nombre.setText(newNome.toString()+"  "+newTelf.toString());
+
+                Agenda.get(pos).setNombre(newNome.toString());
+                Agenda.get(pos).setTelefono(newTelf.toString());
+
+                Intent intento2 = new Intent(Editar.this, VerLista.class);
+                intento2.putExtra("agend",Agenda);
                 setResult(RESULT_OK, intento2);
                 finish();
+
             }
         });
-
     }
 
 

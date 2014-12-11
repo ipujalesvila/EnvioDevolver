@@ -1,8 +1,9 @@
 package com.example.ipujalesvila.enviodevolver;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
+
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,12 +14,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.ipujalesvila.enviodevolver.R;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class VerLista extends ListActivity implements Serializable {
+import com.example.ipujalesvila.enviodevolver.R;
+
+public class Borrar extends ListActivity implements Serializable {
 
     ArrayList<Persona> Agenda = new ArrayList<Persona>();
 
@@ -46,35 +47,32 @@ public class VerLista extends ListActivity implements Serializable {
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intento2 = new Intent(VerLista.this, Enviar.class);
+                Intent intento2 = new Intent(Borrar.this, Enviar.class);
                 intento2.putExtra("agend", Agenda);
                 setResult(RESULT_OK, intento2);
                 finish();
             }
 
-
         });
     }
 
     public void onListItemClick(ListView parent, View v, int position, long id) {
-        Persona persona = Agenda.get(position);
-        Intent intento = new Intent(VerLista.this, Editar.class);
-        intento.putExtra("agend", Agenda);
-        intento.putExtra("Posicion", position);
-        startActivityForResult(intento, 1);
 
-    }
+        Agenda.remove(position);
+        onCreate(Bundle.EMPTY); //llama a si mismo para "recargar la pagina"
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-        Agenda = (ArrayList<Persona>) data.getSerializableExtra("agend");
-        Intent intento2 = new Intent(VerLista.this, Enviar.class);
+        Intent intento2 = new Intent(Borrar.this, Enviar.class);
         intento2.putExtra("agend", Agenda);
         setResult(RESULT_OK, intento2);
         finish();
 
+    }
+
+    protected void showToast(String msg) {
+        Context contexto = getApplicationContext();
+        int duracion = Toast.LENGTH_LONG;
+        Toast tostada = Toast.makeText(contexto, msg, duracion);
+        tostada.show();
     }
 
     @Override
@@ -95,4 +93,5 @@ public class VerLista extends ListActivity implements Serializable {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
