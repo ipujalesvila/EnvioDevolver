@@ -80,7 +80,6 @@ public class Enviar extends Activity implements Serializable {
 
 
         });
-
     }
 
     @Override
