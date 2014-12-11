@@ -81,7 +81,6 @@ public class Enviar extends Activity implements Serializable {
 
         });
 
-        showToast(Integer.toString(Agenda.size()));
     }
 
     @Override
