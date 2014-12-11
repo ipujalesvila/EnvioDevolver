@@ -61,11 +61,6 @@ public class Borrar extends ListActivity implements Serializable {
         Agenda.remove(position);
         onCreate(Bundle.EMPTY); //llama a si mismo para "recargar la pagina"
 
-        Intent intento2 = new Intent(Borrar.this, Enviar.class);
-        intento2.putExtra("agend", Agenda);
-        setResult(RESULT_OK, intento2);
-        finish();
-
     }
 
     protected void showToast(String msg) {
